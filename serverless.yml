@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: sagoon-realtime-two-appsync
+service: dev-realtime-two-appsync
 frameworkVersion: "2"
 
 plugins:
@@ -45,7 +45,7 @@ custom:
   TODO_TABLE: todo-table
 
   appSync:
-    apiId: rxf33qwjbrdn3bmzhkeytsptka
+    apiId: appId
 
     mappingTemplates:
       - type: Mutation
@@ -97,14 +97,7 @@ custom:
   #     Description: Lambda Authorizer for AppSync
   #     FunctionName: appsync-authorizer
 
-  # LambdaPermission:
-  #   Type: AWS::Lambda::Permission
-  #   Properties:
-  #     FunctionName: !GetAtt arn:aws:lambda:us-east-1:929042302465:function:sagoon-realtime-appsync-dev-appSyncAuthorization
-  #     Action: lambda:InvokeFunction
-  #     Principal: appsync.amazonaws.com
-  #     # SourceAccount: !Ref "AWS::AccountId"
-  #     # SourceArn: !GetAtt AppSync.Arn
+
 
 functions:
   getTodos:
