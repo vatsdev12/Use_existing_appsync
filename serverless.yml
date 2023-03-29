@@ -12,7 +12,7 @@
 # Happy Coding!
 
 service: dev-realtime-two-appsync
-frameworkVersion: "2"
+frameworkVersion: "3"
 
 plugins:
   - serverless-appsync-plugin
@@ -20,7 +20,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   stage: dev
   region: us-east-1
   lambdaHashingVersion: 20201221
@@ -31,7 +31,7 @@ provider:
           Action:
             - lambda:InvokeFunction
             - lambda:InvokeAsync
-          Resource: "*"      
+          Resource: "*"
         - Effect: "Allow"
           Action:
             - "dynamodb:PutItem"
@@ -42,10 +42,13 @@ provider:
           Resource: "arn:aws:dynamodb:#{AWS::Region}:*:table/${self:custom.TODO_TABLE}"
 
 custom:
-  TODO_TABLE: todo-table
+  TODO_TABLE: todos-table
 
   appSync:
-    apiId: appId
+    name: appsync-todo-apis-demo
+    authenticationType: AWS_LAMBDA
+    lambdaAuthorizerConfig:
+      lambdaFunctionArn: arn:aws:lambda:us-east-1:929042302465:function:dev-realtime-two-appsync-dev-appSyncAuthorization
 
     mappingTemplates:
       - type: Mutation
@@ -97,8 +100,6 @@ custom:
   #     Description: Lambda Authorizer for AppSync
   #     FunctionName: appsync-authorizer
 
-
-
 functions:
   getTodos:
     handler: functions/getTodos.handler
@@ -107,7 +108,6 @@ functions:
 
   appSyncAuthorization:
     handler: functions/appsync-authorizer.handler
-
 
   createTodo:
     handler: functions/createTodo.handler

@@ -1,41 +1,51 @@
 schema {
-    query: Query
-    mutation: Mutation
-    subscription:Subscription
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
 }
 
-type Subscription{
-   OnCreateTodo(name: String!):Save @aws_subscribe(mutations:["createTodo"])
+type Subscription {
+  OnCreateTodo(id: ID!): [GetIds] @aws_subscribe(mutations: ["createTodo"])
+
+  OnMessage(id: ID!): Message
 }
 
 type Query {
-    getTodos: [Get!]!
+  getTodos: [Get!]!
 }
 
 type Mutation {
-    createTodo(id: ID!, name: String!, description: String!): Save
-    updateTodo(id: ID!, name: String!, description: String!): Update
-    deleteTodo(id: ID!): Delete
+  createTodo(id: ID!, name: String!, description: String!): [GetIds]
+  updateTodo(id: ID!, name: String!, description: String!): Update
+  deleteTodo(id: ID!): Delete
+}
+
+type GetIds {
+  id: ID!
+}
+
+type Message {
+  name: String
 }
 
 type Get {
-    id: ID!
-    name: String
-    description: String 
+  id: ID!
+  name: String
+  description: String
 }
 
 type Save {
-    id: ID!
-    name: String
-    description: String 
+  id: ID!
+  name: String
+  description: String
 }
 
 type Update {
-    id: ID!
-    name: String
-    description: String 
+  id: ID!
+  name: String
+  description: String
 }
 
 type Delete {
-    id: ID! 
+  id: ID!
 }
